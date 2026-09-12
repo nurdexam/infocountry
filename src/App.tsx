@@ -32,11 +32,11 @@ export default function App() {
 
  return (<main className="min-h-screen w-full flex items-center justify-center bg-zinc-600/80">
  { loading ? (<div className="h-screen w-full flex items-center justify-center bg-zinc-600/80"><MorphingInfinity className="size-32 text-white" /></div>) : 
- (<div className="h-screen w-full flex items-center justify-center text-white bg-zinc-600/80"> 
-      <div className="flex-col grid grid-cols-3 items-center justify-center gap-3 p-6">
+ (<div className="min-h-screen h-screen w-full flex items-center justify-center text-white bg-zinc-600/80"> 
+      <div className="flex-col grid grid-cols-5 items-center justify-center gap-3 p-6">
         {countries.map((country) => (
           <div
-            className="flex w-full max-w-md items-center justify-center rounded-md bg-zinc-700/60 px-4 py-3 text-lg text-white shadow-sm"
+            className="flex w-full max-w-sm items-center justify-center rounded-md bg-zinc-700/60 px-4 py-3 text-lg text-white shadow-sm"
             key={country.names.common}
           >
             {country.names.common}
