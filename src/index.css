@@ -1,6 +1,2 @@
 @import "tailwindcss";
 
-#root {
-  height: screen;
-  width: auto;
-}
