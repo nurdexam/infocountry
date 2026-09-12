@@ -36,7 +36,7 @@ export default function App() {
       <div className="flex flex-col items-center justify-center gap-3 p-6">
         {countries.map((country) => (
           <div
-            className="flex w-full max-w-md items-center justify-center rounded-md bg-zinc-700/60 px-4 py-3 text-lg text-white shadow-sm"
+            className="grid w-full max-w-md grid-cols-3 items-center justify-center rounded-md bg-zinc-700/60 px-4 py-3 text-lg text-white shadow-sm"
             key={country.names.common}
           >
             {country.names.common}
