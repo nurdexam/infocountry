@@ -30,7 +30,7 @@ export default function App() {
   }, []);
 
 
- return (<main className="h-screen w-full flex items-center justify-center bg-zinc-600/80">
+ return (<main className="min-h-screen w-full flex items-center justify-center bg-zinc-600/80">
  { loading ? (<div className="h-screen w-full flex items-center justify-center bg-zinc-600/80"><MorphingInfinity className="size-32 text-white" /></div>) : 
  (<div className="h-screen w-full flex items-center justify-center text-white bg-zinc-600/80"> 
       <div className="flex-col grid grid-cols-3 items-center justify-center gap-3 p-6">
