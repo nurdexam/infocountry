@@ -1,15 +1,22 @@
 import { useEffect, useState } from "react";
 import { getCountries } from "./api/countries";
 import type { Country } from "./api/countries";
+import { MorphingInfinity } from "./../@/components/loading-ui/morphing-infinity";
 
-function App() {
+export default function App() {
   const [countries, setCountries] = useState<Country[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
+  const [, setLoadTime] = useState<number | null>(null);
 
   useEffect(() => {
-    getCountries()
-      .then((data) => {
+    const startTime = performance.now();
+
+    Promise.all([
+      getCountries(),
+      new Promise((resolve) => setTimeout(resolve, 1500)),
+    ])
+      .then(([data]) => {
         setCountries(data);
       })
       .catch((error) => {
@@ -17,31 +24,25 @@ function App() {
         setError(error instanceof Error ? error.message : "Unknown error");
       })
       .finally(() => {
+        setLoadTime(Math.round(performance.now() - startTime));
         setLoading(false);
       });
   }, []);
 
-  if (loading) {
-    return <main>Loading...</main>;
-  }
 
-  if (error) {
-    return <main>Error: {error}</main>;
-  }
-
-  return (
-    <main>
-      <h1>Countries</h1>
-
-      <p>Total: {countries.length}</p>
-
-      {countries.map((country) => (
-        <div key={country.names.common}>
-          {country.names.common}
-        </div>
-      ))}
-    </main>
-  );
+ return (<main className="h-screen w-full flex items-center justify-center bg-zinc-600/80">
+ { loading ? (<div className="h-screen w-full flex items-center justify-center bg-zinc-600/80"><MorphingInfinity className="size-32 text-white" /></div>) : 
+ (<div className="h-screen w-full flex items-center justify-center text-white bg-zinc-600/80"> 
+      <div className="flex flex-col items-center justify-center gap-3 p-6">
+        {countries.map((country) => (
+          <div
+            className="flex w-full max-w-md items-center justify-center rounded-md bg-zinc-700/60 px-4 py-3 text-lg text-white shadow-sm"
+            key={country.names.common}
+          >
+            {country.names.common}
+          </div>
+        ))}
+      </div>
+      </div>)}
+ </main>);
 }
-
-export default App;
