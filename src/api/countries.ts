@@ -1,10 +1,11 @@
 import axios from "axios";
 
 export interface Country {
-  names: {
+  name: {
     common: string;
+    official: string;
   };
-  flag: {
+  flags: {
     svg: string;
     png: string;
   };
@@ -12,7 +13,6 @@ export interface Country {
   region: string;
   population: number;
 }
-
 interface CountriesResponse {
   data: {
     objects: Country[];
