@@ -31,7 +31,7 @@ export default function App() {
 
         const data = await getCountries();
 
-        const sortedCountries = data.sort((a, b) =>
+        const sortedCountries = [...data].sort((a, b) =>
           a.name.common.localeCompare(b.name.common)
         );
 
@@ -60,7 +60,8 @@ export default function App() {
         .toLowerCase()
         .includes(normalizedSearch);
 
-      const matchesRegion = region === "" || country.region === region;
+      const matchesRegion =
+        region === "" || country.region === region;
 
       return matchesSearch && matchesRegion;
     });
@@ -103,7 +104,8 @@ export default function App() {
             <h1>Countries</h1>
 
             <p>
-              Найдено стран: <strong>{filteredCountries.length}</strong>
+              Найдено стран:{" "}
+              <strong>{filteredCountries.length}</strong>
             </p>
           </div>
 
@@ -141,7 +143,9 @@ export default function App() {
           <div className={styles.empty}>
             <h2>Страны не найдены</h2>
 
-            <p>Попробуйте изменить запрос или фильтр.</p>
+            <p>
+              Попробуйте изменить запрос или фильтр.
+            </p>
           </div>
         ) : (
           <section className={styles.grid}>
@@ -183,7 +187,8 @@ export default function App() {
             <img
               className={styles.modalFlag}
               src={
-                selectedCountry.flags.svg || selectedCountry.flags.png
+                selectedCountry.flags.svg ||
+                selectedCountry.flags.png
               }
               alt={`Флаг ${selectedCountry.name.common}`}
             />
@@ -193,20 +198,26 @@ export default function App() {
             <div className={styles.details}>
               <div>
                 <span>Столица</span>
+
                 <strong>
-                  {selectedCountry.capital?.join(", ") || "Нет данных"}
+                  {selectedCountry.capital?.join(", ") ||
+                    "Нет данных"}
                 </strong>
               </div>
 
               <div>
                 <span>Регион</span>
+
                 <strong>{selectedCountry.region}</strong>
               </div>
 
               <div>
                 <span>Население</span>
+
                 <strong>
-                  {selectedCountry.population.toLocaleString("ru-RU")}
+                  {selectedCountry.population.toLocaleString(
+                    "ru-RU"
+                  )}
                 </strong>
               </div>
             </div>
