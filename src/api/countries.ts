@@ -44,7 +44,7 @@ export const getCountries = async (): Promise<Country[]> => {
       "https://api.restcountries.com/countries/v5",
       {
         params: {
-          limit: 198,
+          limit: 140,
         },
         headers: {
           Authorization: `Bearer ${apiKey}`,
