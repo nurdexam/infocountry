@@ -21,46 +21,46 @@ export default function App() {
 
   const [search, setSearch] = useState("");
   const [region, setRegion] = useState<Region | "">("");
-  const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
+  const [selectedCountry, setSelectedCountry] = useState<Country | null>(
+    null
+  );
 
-useEffect(() => {
-  const loadCountries = async () => {
-    try {
-      setLoading(true);
-      setError(null);
+  useEffect(() => {
+    const loadCountries = async () => {
+      try {
+        setLoading(true);
+        setError(null);
 
-      const data = await getCountries();
+        const data = await getCountries();
 
-      console.log("Countries API:", data);
+        console.log("Countries API:", data);
 
-      const sortedCountries = [...data]
-        .filter((country) => country?.name?.common)
-        .sort((a, b) =>
-          a.name.common.localeCompare(b.name.common)
+        const sortedCountries = [...data].sort((a, b) =>
+          a.names.common.localeCompare(b.names.common)
         );
 
-      setCountries(sortedCountries);
-    } catch (error) {
-      console.error(error);
+        setCountries(sortedCountries);
+      } catch (error) {
+        console.error(error);
 
-      setError(
-        error instanceof Error
-          ? error.message
-          : "Не удалось загрузить список стран"
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
+        setError(
+          error instanceof Error
+            ? error.message
+            : "Не удалось загрузить список стран"
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  loadCountries();
-}, []);
+    loadCountries();
+  }, []);
 
   const filteredCountries = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase();
 
     return countries.filter((country) => {
-      const matchesSearch = country.name.common
+      const matchesSearch = country.names.common
         .toLowerCase()
         .includes(normalizedSearch);
 
@@ -89,7 +89,6 @@ useEffect(() => {
       <main className={styles.error}>
         <div className={styles.errorContent}>
           <h1>Ошибка загрузки</h1>
-
           <p>{error}</p>
 
           <button onClick={() => window.location.reload()}>
@@ -147,24 +146,22 @@ useEffect(() => {
           <div className={styles.empty}>
             <h2>Страны не найдены</h2>
 
-            <p>
-              Попробуйте изменить запрос или фильтр.
-            </p>
+            <p>Попробуйте изменить запрос или фильтр.</p>
           </div>
         ) : (
           <section className={styles.grid}>
             {filteredCountries.map((country) => (
               <button
-                key={country.name.common}
+                key={country.names.common}
                 className={styles.card}
                 onClick={() => setSelectedCountry(country)}
               >
                 <img
-                  src={country.flags.svg || country.flags.png}
-                  alt={`Флаг ${country.name.common}`}
+                  src={country.flag.svg || country.flag.png}
+                  alt={`Флаг ${country.names.common}`}
                 />
 
-                <span>{country.name.common}</span>
+                <span>{country.names.common}</span>
               </button>
             ))}
           </section>
@@ -191,20 +188,20 @@ useEffect(() => {
             <img
               className={styles.modalFlag}
               src={
-                selectedCountry.flags.svg ||
-                selectedCountry.flags.png
+                selectedCountry.flag.svg ||
+                selectedCountry.flag.png
               }
-              alt={`Флаг ${selectedCountry.name.common}`}
+              alt={`Флаг ${selectedCountry.names.common}`}
             />
 
-            <h2>{selectedCountry.name.common}</h2>
+            <h2>{selectedCountry.names.common}</h2>
 
             <div className={styles.details}>
               <div>
                 <span>Столица</span>
 
                 <strong>
-                  {selectedCountry.capital?.join(", ") ||
+                  {selectedCountry.capitals?.join(", ") ||
                     "Нет данных"}
                 </strong>
               </div>
@@ -219,9 +216,7 @@ useEffect(() => {
                 <span>Население</span>
 
                 <strong>
-                  {selectedCountry.population.toLocaleString(
-                    "ru-RU"
-                  )}
+                  {selectedCountry.population.toLocaleString("ru-RU")}
                 </strong>
               </div>
             </div>

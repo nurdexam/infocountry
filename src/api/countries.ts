@@ -1,18 +1,19 @@
 import axios from "axios";
 
 export interface Country {
-  name: {
+  names: {
     common: string;
     official: string;
   };
-  flags: {
+  flag: {
     svg: string;
     png: string;
   };
-  capital?: string[];
+  capitals: string[];
   region: string;
   population: number;
 }
+
 interface CountriesResponse {
   data: {
     objects: Country[];
@@ -44,9 +45,8 @@ export const getCountries = async (): Promise<Country[]> => {
 
     return response.data.data.objects;
   } catch (error) {
-    console.log(apiKey)
     console.error("API error:", error);
-    
+
     throw error;
   }
 };
