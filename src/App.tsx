@@ -33,6 +33,9 @@ export default function App() {
 
         const data = await getCountries();
 
+        console.log("FIRST COUNTRY:", data[0]);
+console.log("FLAG:", data[0]?.flag);
+console.log("CAPITAL:", data[0]?.capitals);
         console.log("Countries API:", data);
 
         const sortedCountries = [...data].sort((a, b) =>
