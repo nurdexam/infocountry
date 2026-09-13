@@ -5,11 +5,20 @@ export interface Country {
     common: string;
     official: string;
   };
+
   flag: {
-    svg: string;
-    png: string;
+    url_svg: string;
+    url_png: string;
   };
-  capitals: string[];
+
+  capitals: {
+    name: string;
+    coordinates: {
+      lat: number;
+      lng: number;
+    };
+  }[];
+
   region: string;
   population: number;
 }

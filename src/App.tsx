@@ -21,9 +21,8 @@ export default function App() {
 
   const [search, setSearch] = useState("");
   const [region, setRegion] = useState<Region | "">("");
-  const [selectedCountry, setSelectedCountry] = useState<Country | null>(
-    null
-  );
+  const [selectedCountry, setSelectedCountry] =
+    useState<Country | null>(null);
 
   useEffect(() => {
     const loadCountries = async () => {
@@ -32,11 +31,6 @@ export default function App() {
         setError(null);
 
         const data = await getCountries();
-
-        console.log("FIRST COUNTRY:", data[0]);
-console.log("FLAG:", data[0]?.flag);
-console.log("CAPITAL:", data[0]?.capitals);
-        console.log("Countries API:", data);
 
         const sortedCountries = [...data].sort((a, b) =>
           a.names.common.localeCompare(b.names.common)
@@ -92,6 +86,7 @@ console.log("CAPITAL:", data[0]?.capitals);
       <main className={styles.error}>
         <div className={styles.errorContent}>
           <h1>Ошибка загрузки</h1>
+
           <p>{error}</p>
 
           <button onClick={() => window.location.reload()}>
@@ -136,7 +131,9 @@ console.log("CAPITAL:", data[0]?.capitals);
             {REGIONS.map((item) => (
               <button
                 key={item}
-                className={region === item ? styles.activeRegion : ""}
+                className={
+                  region === item ? styles.activeRegion : ""
+                }
                 onClick={() => setRegion(item)}
               >
                 {item}
@@ -149,7 +146,9 @@ console.log("CAPITAL:", data[0]?.capitals);
           <div className={styles.empty}>
             <h2>Страны не найдены</h2>
 
-            <p>Попробуйте изменить запрос или фильтр.</p>
+            <p>
+              Попробуйте изменить запрос или фильтр.
+            </p>
           </div>
         ) : (
           <section className={styles.grid}>
@@ -160,7 +159,7 @@ console.log("CAPITAL:", data[0]?.capitals);
                 onClick={() => setSelectedCountry(country)}
               >
                 <img
-                  src={country.flag.svg || country.flag.png}
+                  src={country.flag.url_svg || country.flag.url_png}
                   alt={`Флаг ${country.names.common}`}
                 />
 
@@ -191,8 +190,8 @@ console.log("CAPITAL:", data[0]?.capitals);
             <img
               className={styles.modalFlag}
               src={
-                selectedCountry.flag.svg ||
-                selectedCountry.flag.png
+                selectedCountry.flag.url_svg ||
+                selectedCountry.flag.url_png
               }
               alt={`Флаг ${selectedCountry.names.common}`}
             />
@@ -204,8 +203,11 @@ console.log("CAPITAL:", data[0]?.capitals);
                 <span>Столица</span>
 
                 <strong>
-                  {selectedCountry.capitals?.join(", ") ||
-                    "Нет данных"}
+                  {selectedCountry.capitals.length > 0
+                    ? selectedCountry.capitals
+                        .map((capital) => capital.name)
+                        .join(", ")
+                    : "Нет данных"}
                 </strong>
               </div>
 
