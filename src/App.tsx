@@ -23,34 +23,38 @@ export default function App() {
   const [region, setRegion] = useState<Region | "">("");
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
 
-  useEffect(() => {
-    const loadCountries = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+useEffect(() => {
+  const loadCountries = async () => {
+    try {
+      setLoading(true);
+      setError(null);
 
-        const data = await getCountries();
+      const data = await getCountries();
 
-        const sortedCountries = [...data].sort((a, b) =>
+      console.log("Countries API:", data);
+
+      const sortedCountries = [...data]
+        .filter((country) => country?.name?.common)
+        .sort((a, b) =>
           a.name.common.localeCompare(b.name.common)
         );
 
-        setCountries(sortedCountries);
-      } catch (error) {
-        console.error(error);
+      setCountries(sortedCountries);
+    } catch (error) {
+      console.error(error);
 
-        setError(
-          error instanceof Error
-            ? error.message
-            : "Не удалось загрузить список стран"
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Не удалось загрузить список стран"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    loadCountries();
-  }, []);
+  loadCountries();
+}, []);
 
   const filteredCountries = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase();
